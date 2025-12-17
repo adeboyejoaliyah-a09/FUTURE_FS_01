@@ -1,9 +1,3 @@
-  =>  Template Name    : ProMan - Personal Portfolio HTML Template
+Welcome to the official portfolio of Lee Graphics, a creative brand focused on Full-Stack Development, Graphic Design, and UI/UX Design.
 
-  =>  Template Link    : https://htmlcodex.com/personal-portfolio-html-template
-
-  =>  Template License : https://htmlcodex.com/license (or read the LICENSE.txt file)
-
-  =>  Template Author  : HTML Codex
-
-  =>  Author Website   : https://htmlcodex.com
+This portfolio showcases selected projects, design works, and development skills, all presented in a clean and modern interface.
