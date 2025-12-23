@@ -272,10 +272,11 @@
 .page-header {
     position: relative;
     padding: 10px 0;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/carousel-1.jpg);
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/oki.jpg);
     background-position: center top;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-size: cover;
 }
 /*** Page Header end ***/
 

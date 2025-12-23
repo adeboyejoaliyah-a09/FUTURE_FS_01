@@ -150,3 +150,46 @@ emailjs.send("service_m1f2hjd","template_8o8zvtc");
     );
   });
 
+
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".add-to-cart");
+
+    buttons.forEach(button => {
+        button.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const product = {
+                id: this.dataset.id,
+                name: this.dataset.name,
+                price: this.dataset.price,
+                image: this.dataset.image,
+                qty: 1
+            };
+
+            console.log("Added to cart:", product);
+            alert(product.name + " added to cart!");
+        });
+    });
+});
+
+
+ document.querySelectorAll(".add-to-cart").forEach(btn => {
+    btn.addEventListener("click", e => {
+        e.preventDefault();
+        // add to cart logic
+    });
+});
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function saveCart() {
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+}
+
+function updateCartCount() {
+    const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const badge = document.getElementById("cart-count");
+    if (badge) badge.innerText = count;
+}
+
