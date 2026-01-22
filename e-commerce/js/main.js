@@ -10,8 +10,8 @@
         }, 1);
     };
     spinner(0);
-    
-    
+
+
     // Initiate the wowjs
     new WOW().init();
 
@@ -35,8 +35,8 @@
         dots: false,
         loop: true,
         margin: 0,
-        nav : true,
-        navText : [
+        nav: true,
+        navText: [
             '<i class="bi bi-arrow-left"></i>',
             '<i class="bi bi-arrow-right"></i>'
         ]
@@ -50,27 +50,27 @@
         dots: false,
         loop: true,
         margin: 25,
-        nav : true,
-        navText : [
+        nav: true,
+        navText: [
             '<i class="fas fa-chevron-left"></i>',
             '<i class="fas fa-chevron-right"></i>'
         ],
         responsiveClass: true,
         responsive: {
-            0:{
-                items:1
+            0: {
+                items: 1
             },
-            576:{
-                items:1
+            576: {
+                items: 1
             },
-            768:{
-                items:2
+            768: {
+                items: 2
             },
-            992:{
-                items:2
+            992: {
+                items: 2
             },
-            1200:{
-                items:3
+            1200: {
+                items: 3
             }
         }
     });
@@ -83,8 +83,8 @@
         loop: true,
         items: 1,
         margin: 25,
-        nav : true,
-        navText : [
+        nav: true,
+        navText: [
             '<i class="bi bi-arrow-left"></i>',
             '<i class="bi bi-arrow-right"></i>'
         ]
@@ -99,8 +99,8 @@
         dotsData: true,
         loop: true,
         items: 1,
-        nav : true,
-        navText : [
+        nav: true,
+        navText: [
             '<i class="bi bi-arrow-left"></i>',
             '<i class="bi bi-arrow-right"></i>'
         ]
@@ -114,27 +114,27 @@
         dots: false,
         loop: true,
         margin: 25,
-        nav : true,
-        navText : [
+        nav: true,
+        navText: [
             '<i class="fas fa-chevron-left"></i>',
             '<i class="fas fa-chevron-right"></i>'
         ],
         responsiveClass: true,
         responsive: {
-            0:{
-                items:1
+            0: {
+                items: 1
             },
-            576:{
-                items:1
+            576: {
+                items: 1
             },
-            768:{
-                items:2
+            768: {
+                items: 2
             },
-            992:{
-                items:3
+            992: {
+                items: 3
             },
-            1200:{
-                items:4
+            1200: {
+                items: 4
             }
         }
     });
@@ -158,22 +158,96 @@
     });
 
 
-    
-   // Back to top button
-   $(window).scroll(function () {
-    if ($(this).scrollTop() > 300) {
-        $('.back-to-top').fadeIn('slow');
-    } else {
-        $('.back-to-top').fadeOut('slow');
-    }
+
+    // Back to top button
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 300) {
+            $('.back-to-top').fadeIn('slow');
+        } else {
+            $('.back-to-top').fadeOut('slow');
+        }
     });
     $('.back-to-top').click(function () {
-        $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
+        $('html, body').animate({ scrollTop: 0 }, 1500, 'easeInOutExpo');
         return false;
     });
 
 
-   
+
+
+    // Footer Accordion for Mobile
+    $('.footer-item h4').click(function () {
+        if ($(window).width() < 768) {
+            $(this).toggleClass('active');
+            $(this).parent().toggleClass('active');
+        }
+    });
+
+    // --- New Logic from Index.html ---
+
+    // Toast Notification Logic
+    window.showToast = function (message, type = 'success') {
+        let container = document.getElementById("toast-container");
+        if (!container) {
+            container = document.createElement("div");
+            container.id = "toast-container";
+            document.body.appendChild(container);
+        }
+
+        const toast = document.createElement("div");
+        toast.className = `toast ${type} show`;
+        toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i> ${message}`;
+
+        container.appendChild(toast);
+
+        // Remove after 3 seconds
+        setTimeout(() => {
+            toast.classList.remove("show");
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    };
+
+    // Cart Logic
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function saveCart() {
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartCount();
+        // Dispatch event for other listeners (like cart page if open in another tab, though mostly for current page updates)
+        window.dispatchEvent(new Event('cartUpdated'));
+    }
+
+    function updateCartCount() {
+        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const badge = document.getElementById("cart-count");
+        if (badge) badge.innerText = count;
+    }
+
+    // Initialize Cart Count on Load
+    updateCartCount();
+
+    // Add to Cart Event Delegation
+    $(document).on('click', '.add-to-cart', function (e) {
+        e.preventDefault();
+        const btn = $(this);
+        const product = {
+            id: btn.data('id'),
+            name: btn.data('name'),
+            price: Number(btn.data('price')),
+            image: btn.data('image'),
+            quantity: 1
+        };
+
+        const existing = cart.find(item => item.id == product.id);
+        if (existing) {
+            existing.quantity++;
+        } else {
+            cart.push(product);
+        }
+
+        saveCart();
+        showToast(`${product.name} added to cart!`);
+    });
 
 })(jQuery);
 

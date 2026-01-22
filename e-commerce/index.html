@@ -33,69 +33,7 @@
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
 </head>
-<script>
-    // Toast Notification Logic
-    function showToast(message) {
-        let container = document.getElementById("toast-container");
-        if (!container) {
-            container = document.createElement("div");
-            container.id = "toast-container";
-            document.body.appendChild(container);
-        }
 
-        const toast = document.createElement("div");
-        toast.className = "toast success show";
-        toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
-
-        container.appendChild(toast);
-
-        // Remove after 3 seconds
-        setTimeout(() => {
-            toast.classList.remove("show");
-            setTimeout(() => toast.remove(), 300);
-        }, 3000);
-    }
-
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    function saveCart() {
-        localStorage.setItem("cart", JSON.stringify(cart));
-        updateCartCount();
-    }
-
-    function updateCartCount() {
-        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-        const badge = document.getElementById("cart-count");
-        if (badge) badge.innerText = count;
-    }
-
-    // Add to cart
-    document.querySelectorAll(".add-to-cart").forEach(btn => {
-        btn.addEventListener("click", e => {
-            e.preventDefault();
-
-            const product = {
-                id: btn.dataset.id,
-                name: btn.dataset.name,
-                price: Number(btn.dataset.price),
-                image: btn.dataset.image,
-                quantity: 1
-            };
-
-            const existing = cart.find(item => item.id === product.id);
-            if (existing) {
-                existing.quantity++;
-            } else {
-                cart.push(product);
-            }
-
-            saveCart();
-            showToast(`${product.name} added to cart!`);
-        });
-    });
-
-    updateCartCount();
-</script>
 
 <body>
 
@@ -110,319 +48,172 @@
 
 
     <!-- Topbar Start -->
-    <div class="container-fluid px-5 d-none border-bottom d-lg-block">
+    <div class="container-fluid topbar px-5 d-none d-lg-block">
         <div class="row gx-0 align-items-center">
-            <div class="col-lg-4 text-center text-lg-start mb-lg-0">
+            <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
                 <div class="d-inline-flex align-items-center" style="height: 45px;">
-                    <a href="services.html" class="text-muted me-2"> Help & Support</a><small> / </small>
-                    <a href="contact.html" class="text-muted ms-2"> Contact</a>
-
+                    <a class="me-3" href="services.html"><i class="fa fa-question-circle me-2"></i>Help & Support</a>
+                    <a class="me-3" href="contact.html"><i class="fa fa-envelope me-2"></i>Contact</a>
+                    <a class="me-0" href="tel:+2348082796613"><i class="fa fa-phone-alt me-2"></i>(+234) 808 279
+                        6613</a>
                 </div>
             </div>
-            <div class="col-lg-4 text-center d-flex align-items-center justify-content-center">
-                <small class="text-dark">Call Us:</small>
-                <a href="tel:+2348082796613" class="text-muted">(+234) 808 279 6613</a>
-            </div>
-
             <div class="col-lg-4 text-center text-lg-end">
                 <div class="d-inline-flex align-items-center" style="height: 45px;">
-                    <div class="dropdown">
-                        <a href="#" class="dropdown-toggle text-muted me-2" data-bs-toggle="dropdown"><small>
-                                USD</small></a>
-                        <div class="dropdown-menu rounded">
-                            <a href="#" class="dropdown-item"> Euro</a>
-                            <a href="#" class="dropdown-item"> Dolar</a>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <a href="#" class="dropdown-toggle text-muted mx-2" data-bs-toggle="dropdown"><small>
-                                English</small></a>
-                        <div class="dropdown-menu rounded">
-                            <a href="#" class="dropdown-item"> English</a>
-                            <a href="#" class="dropdown-item"> Turkish</a>
-                            <a href="#" class="dropdown-item"> Spanol</a>
-                            <a href="#" class="dropdown-item"> Italiano</a>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <a href="#" class="dropdown-toggle text-muted ms-2" data-bs-toggle="dropdown"><small><i
-                                    class="fa fa-home me-2"></i> My Dashboard</small></a>
-                        <div class="dropdown-menu rounded">
-                            <a href="#" class="dropdown-item"> Login</a>
-                            <a href="#" class="dropdown-item"> Notifications</a>
-                            <a href="#" class="dropdown-item"> Account Settings</a>
-                            <a href="#" class="dropdown-item"> My Account</a>
-                            <a href="#" class="dropdown-item"> Log Out</a>
-                        </div>
-                    </div>
+                    <a href="login.html" class="me-3"><i class="fa fa-user me-2"></i>My Account</a>
+                    <a href="cart.html" class="me-0"><i class="fas fa-shopping-cart me-2"></i>Cart <span id="cart-count"
+                            class="badge bg-secondary rounded-pill ms-1">0</span></a>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="container-fluid px-5 py-4 d-none d-lg-block">
-        <div class="row gx-0 align-items-center text-center">
-            <div class="col-md-4 col-lg-3 text-center text-lg-start">
-                <div class="d-inline-flex align-items-center">
-                    <a href="" class="navbar-brand p-0">
-                        <h1 class="display-5 text-secondary m-0 text-center">Mirewa Accessories</h1>
-                        <!-- <img src="img/logo.png" alt="Logo"> -->
-                    </a>
-                </div>
-            </div>
-
         </div>
     </div>
     <!-- Topbar End -->
 
-    <!-- Navbar & Hero Start -->
-    <div class="container-fluid nav-bar p-0">
-        <div class="row gx-0 bg-primary px-5 align-items-center">
-            <div class="col-lg-3 d-none d-lg-block">
-                <nav class="navbar navbar-light position-relative" style="width: 250px;">
-                    <button class="navbar-toggler border-0 fs-4 w-100 px-0 text-start" type="button"
-                        data-bs-toggle="collapse" data-bs-target="#allCat">
-                        <h4 class="m-0"><i class="fa fa-bars me-2"></i>All Categories</h4>
-                    </button>
-                    <div class="collapse navbar-collapse rounded-bottom" id="allCat">
-                        <div class="navbar-nav ms-auto py-0">
-                            <ul class="list-unstyled categories-bars">
-                                <li>
-                                    <div class="categories-bars-item">
-                                        <a href="#">Necklaces</a>
-                                        <span>(3)</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="categories-bars-item">
-                                        <a href="#">Bracelets</a>
-                                        <span>(5)</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="categories-bars-item">
-                                        <a href="#">Watches</a>
-                                        <span>(2)</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="categories-bars-item">
-                                        <a href="#">Ear-Rings</a>
-                                        <span>(8)</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="categories-bars-item">
-                                        <a href="#">Rings</a>
-                                        <span>(5)</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="categories-bars-item">
-                                        <a href="#">Jewelry Sets</a>
-                                        <span>(5)</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5">
+        <a href="index.html" class="navbar-brand d-flex align-items-center">
+            <h1 class="m-0 display-5">Mirewa Accessories</h1>
+        </a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav mx-auto bg-white pe-4 py-3 py-lg-0">
+                <a href="index.html" class="nav-item nav-link active">Home</a>
+                <a href="shop.html" class="nav-item nav-link">Shop</a>
+                <a href="shop.html" class="nav-item nav-link">New Arrivals</a>
+                <a href="contact.html" class="nav-item nav-link">Contact</a>
             </div>
-            <div class="col-12 col-lg-9">
-                <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
-                    <a href="" class="navbar-brand d-block d-lg-none">
-                        <h1 class="display-5 text-secondary m-0"><i class="text-white me-2"></i>Mirewa Accessories</h1>
-                        <!-- <img src="img/logo.png" alt="Logo"> -->
-                    </a>
-                    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarCollapse">
-                        <span class="fa fa-bars fa-1x"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <div class="navbar-nav ms-auto py-0">
-                            <a href="index.html" class="nav-item nav-link active">Home</a>
-                            <a href="shop.html" class="nav-item nav-link">Shop</a>
-                            <a href="cart.html" class="nav-item nav-link">Shop Cart</a>
-                            <a href="cheackout.html" class="nav-item nav-link">Cheackout</a>
-                            <a href="contact.html" class="nav-item nav-link me-2">Contact</a>
-                            <div class="nav-item dropdown d-block d-lg-none mb-3">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">All Category</a>
-                                <div class="dropdown-menu m-0">
-                                    <ul class="list-unstyled categories-bars">
-                                        <li>
-                                            <div class="categories-bars-item">
-                                                <a href="#">Necklaces</a>
-                                                <span>(3)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="categories-bars-item">
-                                                <a href="#">Watches</a>
-                                                <span>(5)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="categories-bars-item">
-                                                <a href="#">Bracelets</a>
-                                                <span>(2)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="categories-bars-item">
-                                                <a href="#">Ear-Rings</a>
-                                                <span>(8)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="categories-bars-item">
-                                                <a href="#">Rings</a>
-                                                <span>(5)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="categories-bars-item">
-                                                <a href="#">Jewelry Sets</a>
-                                                <span>(5)</span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
+            <div class="h-100 d-lg-inline-flex align-items-center d-none">
+                <a class="btn btn-square rounded-circle bg-light text-primary me-2"
+                    href="https://www.instagram.com/mirewa_accessories"><i class="fab fa-instagram"></i></a>
+                <a class="btn btn-square rounded-circle bg-light text-primary me-2" href="#"><i
+                        class="fab fa-facebook-f"></i></a>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Hero Start -->
+    <div class="container-fluid p-0 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div id="header-carousel" class="header-carousel owl-carousel">
+            <div class="owl-carousel-item position-relative">
+                <img class="img-fluid" src="img/hero-bg.jpg" alt=""
+                    style="height: 85vh; object-fit: cover; filter: brightness(0.6);">
+                <div class="carousel-caption">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <h4 class="text-uppercase mb-4 animated slideInDown">Welcome to Mirewa</h4>
+                                <h1 class="display-1 text-white mb-5 animated slideInDown">Timeless Elegance for Every
+                                    Occasion</h1>
+                                <a class="btn btn-primary py-3 px-5 animated slideInDown" href="shop.html">Shop
+                                    Collection</a>
                             </div>
                         </div>
-                        <a href="tel:+2348082796613"
-                            class="btn btn-secondary rounded-pill py-2 px-4 px-lg-3 mb-3 mb-md-3 mb-lg-0"><i
-                                class="fa fa-mobile-alt me-2"></i> (+234)8083796613</a>
-                    </div>
-                </nav>
-            </div>
-        </div>
-    </div>
-    <!-- Navbar & Hero End -->
-
-    <!-- Carousel Start -->
-    <div class="container-fluid bg-light px-0" style="background-image: url(img/hero-bg.jpg); background-size:cover;">
-        <div class="row g-0 justify-content-end">
-            <div class="col-10 col-lg-7 col-xl-7">
-                <div class="header-carousel owl-carousel bg-light py-5">
-                    <div class="col-xl-6 carousel-content p-4">
-                        <h4 class="text-uppercase fw-bold mb-4 wow fadeInRight" data-wow-delay="0.1s"
-                            style="letter-spacing: 3px;">Get Affordable Jewelry</h4>
-                        <h1 class="display-3 text-capitalize mb-4 wow fadeInRight" data-wow-delay="0.3s">Selected from
-                            the Best</h1>
-                        <p class="text-dark wow fadeInRight" data-wow-delay="0.5s"><a href="terms.html">Terms and
-                                Condition Apply</a></p>
-                        <a class="btn btn-primary rounded-pill py-3 px-5 wow fadeInRight" data-wow-delay="0.7s"
-                            href="#">Shop Now</a>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    </div>
-    <!-- Carousel End -->
-
-    <!-- Searvices Start -->
-    <div class="container-fluid px-0">
-        <div class="row g-0">
-            <div class="col-6 col-md-4 col-lg-2 border-start border-end wow fadeInUp" data-wow-delay="0.1s">
-                <div class="p-4">
-                    <div class="d-inline-flex align-items-center">
-                        <i class="fa fa-sync-alt fa-2x text-primary"></i>
-                        <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">40% Returns</h6>
-                            <p class="mb-0">30 days money back guarantee!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.2s">
-                <div class="p-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fab fa-telegram-plane fa-2x text-primary"></i>
-                        <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">Free Delivery</h6>
-                            <p class="mb-0">Free shipping within Lagos on 50% order</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.3s">
-                <div class="p-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-life-ring fa-2x text-primary"></i>
-                        <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">Support 24/7</h6>
-                            <p class="mb-0">We support online 24 hrs a day</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.4s">
-                <div class="p-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-credit-card fa-2x text-primary"></i>
-                        <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">Receive Gift Vouchers</h6>
-                            <p class="mb-0">Recieve Vouchers after the 6th Order per week</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.5s">
-                <div class="p-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-lock fa-2x text-primary"></i>
-                        <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">Secure Payment</h6>
-                            <p class="mb-0">We Value Your Security</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.6s">
-                <div class="p-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-blog fa-2x text-primary"></i>
-                        <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">Online Services</h6>
-                            <p class="mb-0">Easy access to Customer Services</p>
+            <div class="owl-carousel-item position-relative">
+                <img class="img-fluid" src="img/carousel-1.jpg" alt=""
+                    style="height: 85vh; object-fit: cover; filter: brightness(0.6);">
+                <div class="carousel-caption">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <h4 class="text-uppercase mb-4 animated slideInDown">Luxury Redefined</h4>
+                                <h1 class="display-1 text-white mb-5 animated slideInDown">Exquisite Jewelry Sets</h1>
+                                <a class="btn btn-primary py-3 px-5 animated slideInDown" href="shop.html">Explore
+                                    Now</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Searvices End -->
+    <!-- Hero End -->
 
-    <!-- Products Offer Start -->
-    <div class="container-fluid bg-light py-5">
+    <!-- Features Start -->
+    <div class="container-fluid py-5">
         <div class="container">
             <div class="row g-4">
-                <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.2s">
-                    <a href="#" class="d-flex align-items-center justify-content-between border bg-white rounded p-4">
-                        <div>
-                            <p class="text-muted mb-3">Find The Accessories that suits You!</p>
-                            <h3 class="text-primary">Jewelry Sets</h3>
-                            <h1 class="display-3 text-secondary mb-0">20% <span
-                                    class="text-primary fw-normal">Off</span></h1>
-                        </div>
-                        <img src="img/product-.jpg" class="img-fluid" alt="">
-                    </a>
+                <div class="col-md-6 col-lg-3 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="feature-item h-100">
+                        <i class="fa fa-sync-alt fa-3x text-primary"></i>
+                        <h5 class="mb-3 mt-4">Easy Returns</h5>
+                        <p class="mb-0 text-muted">30-day money back guarantee for your peace of mind.</p>
+                    </div>
                 </div>
-                <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.3s">
-                    <a href="#" class="d-flex align-items-center justify-content-between border bg-white rounded p-4">
-                        <div>
-                            <p class="text-muted mb-3">Find The Best Watches says You!</p>
-                            <h3 class="text-primary">Smart Whatch</h3>
-                            <h1 class="display-3 text-secondary mb-0">20% <span
-                                    class="text-primary fw-normal">Off</span></h1>
-                        </div>
-                        <img src="img/product-.png" class="img-fluid" alt="">
-                    </a>
+                <div class="col-md-6 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="feature-item h-100">
+                        <i class="fa fa-truck fa-3x text-primary"></i>
+                        <h5 class="mb-3 mt-4">Free Delivery</h5>
+                        <p class="mb-0 text-muted">Free shipping within Lagos on orders over $50.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="feature-item h-100">
+                        <i class="fa fa-headset fa-3x text-primary"></i>
+                        <h5 class="mb-3 mt-4">24/7 Support</h5>
+                        <p class="mb-0 text-muted">Dedicated support team available round the clock.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="feature-item h-100">
+                        <i class="fa fa-shield-alt fa-3x text-primary"></i>
+                        <h5 class="mb-3 mt-4">Secure Payment</h5>
+                        <p class="mb-0 text-muted">100% secure payment gateways for safe transactions.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Products Offer End -->
+    <!-- Features End -->
+
+    <!-- Offers Start -->
+    <div class="container-fluid bg-light py-5 my-5">
+        <div class="container py-5">
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.1s">
+                    <div class="position-relative overflow-hidden rounded ps-5 pt-5 h-100"
+                        style="background-color: #f2f2f2; min-height: 400px;">
+                        <img class="position-absolute top-0 end-0 bg-white rounded-circle" src="img/product-3.jpg"
+                            alt=""
+                            style="width: 200px; height: 200px; object-fit: cover; opacity: 0.8; margin-top: -50px; margin-right: -50px;">
+                        <div class="position-relative z-index-1 p-4">
+                            <h5 class="text-uppercase text-secondary mb-3">Exclusive Collection</h5>
+                            <h1 class="mb-4 display-5 text-primary">Jewelry Sets</h1>
+                            <p class="mb-4 text-muted">Discover our handpicked selection of premium jewelry sets perfect
+                                for weddings and special occasions.</p>
+                            <a href="shop.html" class="btn btn-primary rounded-pill py-3 px-5">Shop Now</a>
+                        </div>
+                        <img src="img/product-22.jpg" class="img-fluid position-absolute bottom-0 end-0"
+                            style="width: 300px; border-top-left-radius: 100px;" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.3s">
+                    <div class="position-relative overflow-hidden rounded ps-5 pt-5 h-100"
+                        style="background-color: #0f172a; min-height: 400px;">
+                        <img class="position-absolute top-0 end-0 bg-secondary rounded-circle" src="img/product-4.jpg"
+                            alt=""
+                            style="width: 200px; height: 200px; object-fit: cover; opacity: 0.3; margin-top: -50px; margin-right: -50px;">
+                        <div class="position-relative z-index-1 p-4">
+                            <h5 class="text-uppercase text-secondary mb-3">Limited Time Offer</h5>
+                            <h1 class="mb-4 display-5 text-white">Smart Watches</h1>
+                            <p class="mb-4 text-white-50">Get 20% off on our latest collection of smart watches.
+                                Advanced technology meets elegant design.</p>
+                            <a href="shop.html" class="btn btn-secondary rounded-pill py-3 px-5">View Collection</a>
+                        </div>
+                        <img src="img/product-4.jpg" class="img-fluid position-absolute bottom-0 end-0 shadow-lg"
+                            style="width: 250px; border-top-left-radius: 20px; border: 5px solid rgba(255,255,255,0.1);"
+                            alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Offers End -->
 
 
     <!-- Our Products Start -->
@@ -465,375 +256,182 @@
                 <div class="tab-content">
                     <div id="tab-1" class="tab-pane fade show p-0 active">
                         <div class="row g-4">
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="product-item rounded wow fadeInUp" data-wow-delay="0.1s">
-                                    <div class="product-item-inner border rounded first">
-                                        <div class="product-item-inner-item">
-                                            <img src="img/product-3.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            <div class="product-new">New</div>
-                                            <div class="product-details">
-                                                <a href="#"><i class="fa fa-eye fa-1x"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="text-center rounded-bottom p-4">
-                                            <a href="#" class="d-block mb-2">Ear-Rings</a>
-                                            <a href="#" class="d-block h4">Butterfly Trio set<br></a>
-                                            <span class="text-primary fs-5">$950.00</span>
+                            <!-- Product 1 -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
+                                <div class="product-item">
+                                    <div class="product-img">
+                                        <img src="img/product-3.jpg" alt="Butterfly Trio Set">
+                                        <div class="product-action">
+                                            <a href="#" class="btn-square add-to-cart" data-id="3"
+                                                data-name="Butterfly Trio set" data-price="950"
+                                                data-image="img/product-3.jpg"><i class="fa fa-shopping-cart"></i></a>
+                                            <a href="#" class="btn-square"><i class="far fa-heart"></i></a>
+                                            <a href="#" class="btn-square"><i class="fa fa-sync-alt"></i></a>
+                                            <a href="#" class="btn-square"><i class="fa fa-search"></i></a>
                                         </div>
                                     </div>
-                                    <div
-                                        class="product-item-add border border-top-0 rounded-bottom text-center p-4 pt-0">
-                                        <a href="#" class="btn btn-primary rounded-pill py-2 px-4 mb-4 add-to-cart"
-                                            data-id="3" data-name="Butterfly Trio set" data-price="950"
-                                            data-image="img/product-3.jpg"> <i class="fas fa-shopping-cart me-2"></i>
-                                            Add To Cart</a>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex">
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                            <div class="d-flex">
-                                                <a href="#"
-                                                    class="text-primary d-flex align-items-center justify-content-center me-3"><span
-                                                        class="rounded-circle btn-sm-square border"><i
-                                                            class="fas fa-random"></i></i></a>
-                                                <a href="#"
-                                                    class="text-primary d-flex align-items-center justify-content-center me-0"><span
-                                                        class="rounded-circle btn-sm-square border"><i
-                                                            class="fas fa-heart"></i></a>
-                                            </div>
-                                        </div>
+                                    <div class="product-content">
+                                        <span class="category">Ear-Rings</span>
+                                        <a href="#" class="h4 d-block">Butterfly Trio Set</a>
+                                        <div class="price">$950.00</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="product-item rounded wow fadeInUp" data-wow-delay="0.3s">
-                                    <div class="product-item-inner border rounded">
-                                        <div class="product-item-inner-item">
-                                            <img src="img/product-11.jpg" class="img-fluid w-100 rounded-top"
-                                                alt="Image">
-                                            <div class="product-sale">sale</div>
-                                            <div class="product-details">
-                                                <a href="#"><i class="fa fa-eye fa-1x"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="text-center rounded-bottom p-4">
-                                            <a href="#" class="d-block mb-2">Rings</a>
-                                            <a href="#" class="d-block h4">Gold 12pcs Knuckle Rings<br></a>
-                                            <span class="text-primary fs-5">$950.00</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="product-item-add border border-top-0 rounded-bottom  text-center p-4 pt-0">
-                                        <a href="#" class="btn btn-primary rounded-pill py-2 px-4 mb-4 add-to-cart"
-                                            data-id="4" data-name="Gold 12pcs Knuckle Rings" data-price="950"
-                                            data-image="img/product-11.jpg"><i class="fas fa-shopping-cart me-2"></i>
-                                            Add To Cart</a>
 
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex">
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                            <div class="d-flex">
-                                                <a href="#"
-                                                    class="text-primary d-flex align-items-center justify-content-center me-3"><span
-                                                        class="rounded-circle btn-sm-square border"><i
-                                                            class="fas fa-random"></i></i></a>
-                                                <a href="#"
-                                                    class="text-primary d-flex align-items-center justify-content-center me-0"><span
-                                                        class="rounded-circle btn-sm-square border"><i
-                                                            class="fas fa-heart"></i></a>
-                                            </div>
+                            <!-- Product 2 -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-delay="0.3s">
+                                <div class="product-item">
+                                    <div class="product-img">
+                                        <img src="img/product-11.jpg" alt="Gold 12pcs Knuckle Rings">
+                                        <div class="product-action">
+                                            <a href="#" class="btn-square add-to-cart" data-id="4"
+                                                data-name="Gold 12pcs Knuckle Rings" data-price="950"
+                                                data-image="img/product-11.jpg"><i class="fa fa-shopping-cart"></i></a>
+                                            <a href="#" class="btn-square"><i class="far fa-heart"></i></a>
+                                            <a href="#" class="btn-square"><i class="fa fa-sync-alt"></i></a>
+                                            <a href="#" class="btn-square"><i class="fa fa-search"></i></a>
                                         </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <span class="category">Rings</span>
+                                        <a href="#" class="h4 d-block">Gold Knuckle Rings</a>
+                                        <div class="price">$950.00</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="product-item rounded wow fadeInUp" data-wow-delay="0.5s">
-                                    <div class="product-item-inner border rounded">
-                                        <div class="product-item-inner-item">
-                                            <img src="img/product-10.jpg" class="img-fluid w-100 rounded-top"
-                                                alt="Image">
-                                            <div class="product-details">
-                                                <a href="#"><i class="fa fa-eye fa-1x"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="text-center rounded-bottom p-4">
-                                            <a href="#" class="d-block mb-2">Necklaces</a>
-                                            <a href="#" class="d-block h4">Water Drop & Moon Charm Necklace<br></a>
-                                            <span class="text-primary fs-5">$1,050.00</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="product-item-add border border-top-0 rounded-bottom  text-center p-4 pt-0">
-                                        <a href="#" class="btn btn-primary rounded-pill py-2 px-4 mb-4 add-to-cart"
-                                            data-id="5" data-name="Water Drop & Moon Charm Necklace" data-price="1050"
-                                            data-image="img/product-10.jpg">
-                                            <i class="fas fa-shopping-cart me-2"></i> Add To Cart
-                                        </a>
 
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex">
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                            <div class="d-flex">
-                                                <a href="#"
-                                                    class="text-primary d-flex align-items-center justify-content-center me-3"><span
-                                                        class="rounded-circle btn-sm-square border"><i
-                                                            class="fas fa-random"></i></i></a>
-                                                <a href="#"
-                                                    class="text-primary d-flex align-items-center justify-content-center me-0"><span
-                                                        class="rounded-circle btn-sm-square border"><i
-                                                            class="fas fa-heart"></i></a>
-                                            </div>
+                            <!-- Product 3 -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-delay="0.5s">
+                                <div class="product-item">
+                                    <div class="product-img">
+                                        <img src="img/product-10.jpg" alt="">
+                                        <div class="product-action">
+                                            <a href="#" class="btn-square add-to-cart" data-id="5"
+                                                data-name="Water Drop & Moon Charm Necklace" data-price="1050"
+                                                data-image="img/product-10.jpg"><i class="fa fa-shopping-cart"></i></a>
+                                            <a href="#" class="btn-square"><i class="far fa-heart"></i></a>
+                                            <a href="#" class="btn-square"><i class="fa fa-sync-alt"></i></a>
+                                            <a href="#" class="btn-square"><i class="fa fa-search"></i></a>
                                         </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <span class="category">Necklaces</span>
+                                        <a href="#" class="h4 d-block">Water Drop Necklace</a>
+                                        <div class="price">$1,050.00</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="product-item rounded wow fadeInUp" data-wow-delay="0.7s">
-                                    <div class="product-item-inner border rounded">
-                                        <div class="product-item-inner-item">
-                                            <img src="img/carousel-1.jpg" class="img-fluid w-100 rounded-top"
-                                                alt="Image">
-                                            <div class="product-new">New</div>
-                                            <div class="product-details">
-                                                <a href="#"><i class="fa fa-eye fa-1x"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="text-center rounded-bottom p-4">
-                                            <a href="#" class="d-block mb-2">Necklaces</a>
-                                            <a href="#" class="d-block h4">5Pcs Emerald Necklace<br></a>
-                                            <span class="text-primary fs-5">$1,500.00</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="product-item-add border border-top-0 rounded-bottom  text-center p-4 pt-0">
-                                        <a href="#" class="btn btn-primary rounded-pill py-2 px-4 mb-4 add-to-cart"
-                                            data-id="6" data-name="5Pcs Emerald Necklace" data-price="1500"
-                                            data-image="img/carousel-1.jpg">
-                                            <i class="fas fa-shopping-cart me-2"></i> Add To Cart
-                                        </a>
 
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex">
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                            <div class="d-flex">
-                                                <a href="#"
-                                                    class="text-primary d-flex align-items-center justify-content-center me-3"><span
-                                                        class="rounded-circle btn-sm-square border"><i
-                                                            class="fas fa-random"></i></i></a>
-                                                <a href="#"
-                                                    class="text-primary d-flex align-items-center justify-content-center me-0"><span
-                                                        class="rounded-circle btn-sm-square border"><i
-                                                            class="fas fa-heart"></i></a>
-                                            </div>
+                            <!-- Product 4 -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-delay="0.7s">
+                                <div class="product-item">
+                                    <div class="product-img">
+                                        <img src="img/carousel-1.jpg" alt="">
+                                        <div class="product-action">
+                                            <a href="#" class="btn-square add-to-cart" data-id="6"
+                                                data-name="5Pcs Emerald Necklace" data-price="1500"
+                                                data-image="img/carousel-1.jpg"><i class="fa fa-shopping-cart"></i></a>
+                                            <a href="#" class="btn-square"><i class="far fa-heart"></i></a>
+                                            <a href="#" class="btn-square"><i class="fa fa-sync-alt"></i></a>
+                                            <a href="#" class="btn-square"><i class="fa fa-search"></i></a>
                                         </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <span class="category">Necklaces</span>
+                                        <a href="#" class="h4 d-block">Emerald Necklace</a>
+                                        <div class="price">$1,500.00</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="product-item rounded wow fadeInUp" data-wow-delay="0.1s">
-                                    <div class="product-item-inner border rounded">
-                                        <div class="product-item-inner-item">
-                                            <img src="img/product-2.jpg" class="img-fluid w-100 rounded-top"
-                                                alt="Image">
-                                            <div class="product-sale">Sale</div>
-                                            <div class="product-details">
-                                                <a href="#"><i class="fa fa-eye fa-1x"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="text-center rounded-bottom p-4">
-                                            <a href="#" class="d-block mb-2">Jewelry Set</a>
-                                            <a href="#" class="d-block h4">Rosegold Ear Rings & Necklace Set<br></a>
-                                            <span class="text-primary fs-5">$2,050.00</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="product-item-add border border-top-0 rounded-bottom  text-center p-4 pt-0">
-                                        <a href="#" class="btn btn-primary rounded-pill py-2 px-4 mb-4 add-to-cart"
-                                            data-id="7" data-name="Rosegold Ear Rings & Necklace Set" data-price="2050"
-                                            data-image="img/product-2.jpg">
-                                            <i class="fas fa-shopping-cart me-2"></i> Add To Cart
-                                        </a>
 
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex">
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                            <div class="d-flex">
-                                                <a href="#"
-                                                    class="text-primary d-flex align-items-center justify-content-center me-3"><span
-                                                        class="rounded-circle btn-sm-square border"><i
-                                                            class="fas fa-random"></i></i></a>
-                                                <a href="#"
-                                                    class="text-primary d-flex align-items-center justify-content-center me-0"><span
-                                                        class="rounded-circle btn-sm-square border"><i
-                                                            class="fas fa-heart"></i></a>
-                                            </div>
+                            <!-- Product 5 -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
+                                <div class="product-item">
+                                    <div class="product-img">
+                                        <img src="img/product-2.jpg" alt="">
+                                        <div class="product-action">
+                                            <a href="#" class="btn-square add-to-cart" data-id="7"
+                                                data-name="Rosegold Set" data-price="2050"
+                                                data-image="img/product-2.jpg"><i class="fa fa-shopping-cart"></i></a>
+                                            <a href="#" class="btn-square"><i class="far fa-heart"></i></a>
+                                            <a href="#" class="btn-square"><i class="fa fa-sync-alt"></i></a>
+                                            <a href="#" class="btn-square"><i class="fa fa-search"></i></a>
                                         </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <span class="category">Jewelry Set</span>
+                                        <a href="#" class="h4 d-block">Rosegold Set</a>
+                                        <div class="price">$2,050.00</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="product-item rounded wow fadeInUp" data-wow-delay="0.3s">
-                                    <div class="product-item-inner border rounded">
-                                        <div class="product-item-inner-item">
-                                            <img src="img/product-4.jpg" class="img-fluid w-100 rounded-top"
-                                                alt="Image">
-                                            <div class="product-details">
-                                                <a href="#"><i class="fa fa-eye fa-1x"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="text-center rounded-bottom p-4">
-                                            <a href="#" class="d-block mb-2">Watches</a>
-                                            <a href="#" class="d-block h4">Bamboni Wrist-watch<br></a>
-                                            <span class="text-primary fs-5">$1,050.00</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="product-item-add border border-top-0 rounded-bottom  text-center p-4 pt-0">
-                                        <<a href="#" class="btn btn-primary rounded-pill py-2 px-4 mb-4 add-to-cart"
-                                            data-id="8" data-name="Bamboni Wrist-watch" data-price="1050"
-                                            data-image="img/product-4.jpg">
-                                            <i class="fas fa-shopping-cart me-2"></i> Add To Cart
-                                            </a>
 
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="d-flex">
-                                                    <i class="fas fa-star text-primary"></i>
-                                                    <i class="fas fa-star text-primary"></i>
-                                                    <i class="fas fa-star text-primary"></i>
-                                                    <i class="fas fa-star text-primary"></i>
-                                                    <i class="fas fa-star"></i>
-                                                </div>
-                                                <div class="d-flex">
-                                                    <a href="#"
-                                                        class="text-primary d-flex align-items-center justify-content-center me-3"><span
-                                                            class="rounded-circle btn-sm-square border"><i
-                                                                class="fas fa-random"></i></i></a>
-                                                    <a href="#"
-                                                        class="text-primary d-flex align-items-center justify-content-center me-0"><span
-                                                            class="rounded-circle btn-sm-square border"><i
-                                                                class="fas fa-heart"></i></a>
-                                                </div>
-                                            </div>
+                            <!-- Product 6 -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-delay="0.3s">
+                                <div class="product-item">
+                                    <div class="product-img">
+                                        <img src="img/product-4.jpg" alt="">
+                                        <div class="product-action">
+                                            <a href="#" class="btn-square add-to-cart" data-id="8"
+                                                data-name="Bamboni Wrist-watch" data-price="1050"
+                                                data-image="img/product-4.jpg"><i class="fa fa-shopping-cart"></i></a>
+                                            <a href="#" class="btn-square"><i class="far fa-heart"></i></a>
+                                            <a href="#" class="btn-square"><i class="fa fa-sync-alt"></i></a>
+                                            <a href="#" class="btn-square"><i class="fa fa-search"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <span class="category">Watches</span>
+                                        <a href="#" class="h4 d-block">Bamboni Watch</a>
+                                        <div class="price">$1,050.00</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="product-item rounded wow fadeInUp" data-wow-delay="0.5s">
-                                    <div class="product-item-inner border rounded">
-                                        <div class="product-item-inner-item">
-                                            <img src="img/product-8.jpg" class="img-fluid w-100 rounded-top"
-                                                alt="Image">
-                                            <div class="product-new">New</div>
-                                            <div class="product-details">
-                                                <a href="#"><i class="fa fa-eye fa-1x"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="text-center rounded-bottom p-4">
-                                            <a href="#" class="d-block mb-2">Bracelets</a>
-                                            <a href="#" class="d-block h4">Brazilian Drin<br></a>
-                                            <span class="text-primary fs-5">$1,000.00</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="product-item-add border border-top-0 rounded-bottom  text-center p-4 pt-0">
-                                        <a href="#" class="btn btn-primary rounded-pill py-2 px-4 mb-4 add-to-cart"
-                                            data-id="9" data-name="Brazilian Drin" data-price="1000"
-                                            data-image="img/product-8.jpg">
-                                            <i class="fas fa-shopping-cart me-2"></i> Add To Cart
-                                        </a>
 
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex">
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                            <div class="d-flex">
-                                                <a href="#"
-                                                    class="text-primary d-flex align-items-center justify-content-center me-3"><span
-                                                        class="rounded-circle btn-sm-square border"><i
-                                                            class="fas fa-random"></i></i></a>
-                                                <a href="#"
-                                                    class="text-primary d-flex align-items-center justify-content-center me-0"><span
-                                                        class="rounded-circle btn-sm-square border"><i
-                                                            class="fas fa-heart"></i></a>
-                                            </div>
+                            <!-- Product 7 -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-delay="0.5s">
+                                <div class="product-item">
+                                    <div class="product-img">
+                                        <img src="img/product-8.jpg" alt="">
+                                        <div class="product-action">
+                                            <a href="#" class="btn-square add-to-cart" data-id="9"
+                                                data-name="Brazilian Drin" data-price="1000"
+                                                data-image="img/product-8.jpg"><i class="fa fa-shopping-cart"></i></a>
+                                            <a href="#" class="btn-square"><i class="far fa-heart"></i></a>
+                                            <a href="#" class="btn-square"><i class="fa fa-sync-alt"></i></a>
+                                            <a href="#" class="btn-square"><i class="fa fa-search"></i></a>
                                         </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <span class="category">Bracelets</span>
+                                        <a href="#" class="h4 d-block">Brazilian Drin</a>
+                                        <div class="price">$1,000.00</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="product-item rounded wow fadeInUp" data-wow-delay="0.7s">
-                                    <div class="product-item-inner border rounded">
-                                        <div class="product-item-inner-item">
-                                            <img src="img/product-9.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            <div class="product-sale">Sale</div>
-                                            <div class="product-details">
-                                                <a href="#"><i class="fa fa-eye fa-1x"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="text-center rounded-bottom p-4">
-                                            <a href="#" class="d-block mb-2">Bracelets</a>
-                                            <a href="#" class="d-block h4">Cartier Gold,Silver,Rosegold set<br></a>
-                                            <span class="text-primary fs-5">$1,050.00</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="product-item-add border border-top-0 rounded-bottom  text-center p-4 pt-0">
-                                        <a href="#" class="btn btn-primary rounded-pill py-2 px-4 mb-4 add-to-cart"
-                                            data-id="10" data-name="Cartier Gold,Silver,Rosegold set" data-price="1050"
-                                            data-image="img/product-9.jpg">
-                                            <i class="fas fa-shopping-cart me-2"></i> Add To Cart
-                                        </a>
 
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex">
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star text-primary"></i>
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                            <div class="d-flex">
-                                                <a href="#"
-                                                    class="text-primary d-flex align-items-center justify-content-center me-3"><span
-                                                        class="rounded-circle btn-sm-square border"><i
-                                                            class="fas fa-random"></i></i></a>
-                                                <a href="#"
-                                                    class="text-primary d-flex align-items-center justify-content-center me-0"><span
-                                                        class="rounded-circle btn-sm-square border"><i
-                                                            class="fas fa-heart"></i></a>
-                                            </div>
+                            <!-- Product 8 -->
+                            <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-delay="0.7s">
+                                <div class="product-item">
+                                    <div class="product-img">
+                                        <img src="img/product-9.jpg" alt="">
+                                        <div class="product-action">
+                                            <a href="#" class="btn-square add-to-cart" data-id="10"
+                                                data-name="Cartier Set" data-price="1050"
+                                                data-image="img/product-9.jpg"><i class="fa fa-shopping-cart"></i></a>
+                                            <a href="#" class="btn-square"><i class="far fa-heart"></i></a>
+                                            <a href="#" class="btn-square"><i class="fa fa-sync-alt"></i></a>
+                                            <a href="#" class="btn-square"><i class="fa fa-search"></i></a>
                                         </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <span class="category">Bracelets</span>
+                                        <a href="#" class="h4 d-block">Cartier Set</a>
+                                        <div class="price">$1,050.00</div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <!--All Products-->
@@ -1411,134 +1009,63 @@
 
 
     <!-- Footer Start -->
-    <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
+    <div class="container-fluid footer wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
-            <div class="row g-4 rounded mb-5" style="background: rgba(255, 255, 255, .03);">
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="rounded p-4">
-                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
-                            style="width: 70px; height: 70px;">
-                            <i class="fas fa-map-marker-alt fa-2x text-light"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-dark">Address</h4>
-                            <p class="mb-2">Mainland Lagos, Nigeria</p>
-                        </div>
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-4">Mirewa Accessories</h4>
+                    <p>Your one-stop shop for premium jewelry and accessories. timeless elegance for every occasion.</p>
+                    <div class="d-flex pt-2">
+                        <a class="btn btn-social" href="https://twitter.com"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-social" href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-social" href="https://youtube.com"><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-social" href="https://linkedin.com"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="rounded p-4">
-                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
-                            style="width: 70px; height: 70px;">
-                            <i class="fas fa-envelope fa-2x text-light"><a href="mailto:ajaratolaide@gmail.com"></a></i>
-                        </div>
-                        <div>
-                            <h4 class="text-dark">Email Us</h4>
-                            <p class="mb-2">ajaratolaide@gmail.com</p>
-                        </div>
-                    </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-4">Quick Links</h4>
+                    <a class="btn btn-link" href="about.html">About Us</a>
+                    <a class="btn btn-link" href="contact.html">Contact Us</a>
+                    <a class="btn btn-link" href="services.html">Our Services</a>
+                    <a class="btn btn-link" href="terms.html">Terms & Condition</a>
+                    <a class="btn btn-link" href="support.html">Support</a>
                 </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="rounded p-4">
-                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
-                            style="width: 70px; height: 70px;">
-                            <i class="fa fa-phone-alt fa-2x text-light"><a href="tel:+2348082796613"></a></i>
-                        </div>
-                        <div>
-                            <h4 class="text-dark">Telephone</h4>
-                            <p class="mb-2">(+234) 808 279 6613</p>
-                        </div>
-                    </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-4">Business Hours</h4>
+                    <p class="mb-1">Monday - Friday</p>
+                    <h6 class="text-light">09:00 am - 07:00 pm</h6>
+                    <p class="mb-1">Saturday</p>
+                    <h6 class="text-light">09:00 am - 12:00 pm</h6>
+                    <p class="mb-1">Sunday</p>
+                    <h6 class="text-light">Closed</h6>
                 </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="rounded p-4">
-                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
-                            style="width: 70px; height: 70px;">
-                            <i class="fab fa-instagram fa-2x text-light"><a
-                                    href="https://www.instagram.com/mirewa_accessories"></a></i>
-                        </div>
-                        <div>
-                            <h4 class="text-dark">Instagram</h4>
-                            <p class="mb-2">Mirewa Accessories</p>
-                        </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-4">Newsletter</h4>
+                    <p>Subscribe to our newsletter for latest updates and exclusive offers.</p>
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                        <button type="button"
+                            class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
                     </div>
                 </div>
             </div>
-            <div class="row g-5">
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="footer-item d-flex flex-column">
-                        <div class="footer-item">
-                            <h4 class="text-primary mb-4">Newsletter</h4>
-                            <p class="mb-3">Join the Mirewa Accessories Newsletter
-                                Get updates on new arrivals, special offers, and style inspiration — straight to your
-                                inbox..</p>
-                            <div class="position-relative mx-auto rounded-pill">
-                                <input class="form-control rounded-pill w-100 py-3 ps-4 pe-5" type="text"
-                                    placeholder="Enter your email">
-                                <button type="button"
-                                    class="btn btn-primary rounded-pill position-absolute top-0 end-0 py-2 mt-2 me-2">Subscribe</button>
-                            </div>
-                        </div>
-                    </div>
+        </div>
+        <div class="container copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Mirewa Accessories</a>, All Right Reserved.
                 </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="footer-item d-flex flex-column">
-                        <h4 class="text-primary mb-4">Customer Service</h4>
-                        <a href="contact.html" class=""><i class="fas fa-angle-right me-2"></i> Contact Us</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Site Map</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Testimonials</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> My Account</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Unsubscribe</a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="footer-item d-flex flex-column">
-                        <h4 class="text-primary mb-4">Information</h4>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> About Us</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Delivery infomation</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Privacy Policy</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Terms & Conditions</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Warranty</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> FAQ</a>
-                        <a href="login.html" class=""><i class="fas fa-angle-right me-2"></i> Login</a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="footer-item d-flex flex-column">
-                        <h4 class="text-primary mb-4">Extras</h4>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Brands</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Gift Vouchers</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Affiliates</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Order History</a>
-                    </div>
+                <div class="col-md-6 text-center text-md-end">
+                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
                 </div>
             </div>
         </div>
     </div>
     <!-- Footer End -->
 
-
-    <!-- Copyright Start -->
-    <div class="container-fluid copyright py-4 bg-dark text-white-50">
-        <div class="container">
-            <div class="row g-4 align-items-center">
-                <div class="col-md-6 text-center text-md-start mb-md-0">
-                    <span class="text-dark"><a href="index.html" class="border-bottom text-dark"><i
-                                class="fas fa-copyright text-dark me-2"></i>Mirewa Accessories</a> | All right
-                        reserved.</span>
-                </div>
-                <div class="col-md-6 text-center text-md-end text-dark">
-                    Designed By <a class="border-bottom text-dark" href="https://liyahportfolio.netlify.app/">Ayah
-                        Tech</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Copyright End -->
-
-
     <!-- Back to Top -->
-    <a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i
+            class="bi bi-arrow-up"></i></a>
 
 
     <!-- JavaScript Libraries -->
