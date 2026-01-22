@@ -27,10 +27,12 @@
 
 
     // Hero Header carousel
-    $(".header-carousel").owlCarousel({
+    var headerCarousel = $(".header-carousel");
+    headerCarousel.owlCarousel({
         items: 1,
         autoplay: true,
-        smartSpeed: 2000,
+        autoplayTimeout: 8000, /* Stays for 8s */
+        smartSpeed: 1500, /* Transition takes 1.5s */
         center: false,
         dots: false,
         loop: true,
@@ -40,6 +42,18 @@
             '<i class="bi bi-arrow-left"></i>',
             '<i class="bi bi-arrow-right"></i>'
         ]
+    });
+
+    // Re-animate captions on slide change
+    headerCarousel.on('changed.owl.carousel', function (event) {
+        var item = event.item.index - 2;     // Position of the current item
+        $('h4').removeClass('animated slideInDown');
+        $('h1').removeClass('animated slideInDown');
+        $('a.btn').removeClass('animated slideInDown');
+
+        $('.owl-item').not('.cloned').eq(item).find('h4').addClass('animated slideInDown');
+        $('.owl-item').not('.cloned').eq(item).find('h1').addClass('animated slideInDown');
+        $('.owl-item').not('.cloned').eq(item).find('a.btn').addClass('animated slideInDown');
     });
 
 
