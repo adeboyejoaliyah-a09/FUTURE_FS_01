@@ -226,6 +226,34 @@
     // Initialize Cart Count on Load
     updateCartCount();
 
+    // Sorting Logic
+    $('#sort-products').change(function () {
+        const sortValue = $(this).val();
+        const productList = $('.product-list');
+        const products = productList.children('.col-lg-4, .col-md-6').get();
+
+        products.sort(function (a, b) {
+            const priceA = parseFloat($(a).data('price'));
+            const priceB = parseFloat($(b).data('price'));
+            const nameA = $(a).data('name').toUpperCase();
+            const nameB = $(b).data('name').toUpperCase();
+
+            if (sortValue === 'price-low') {
+                return priceA - priceB;
+            } else if (sortValue === 'price-high') {
+                return priceB - priceA;
+            } else if (sortValue === 'name-asc') {
+                return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+            } else {
+                return 0; // Default order (could be improved by storing original index)
+            }
+        });
+
+        $.each(products, function (idx, item) {
+            productList.append(item);
+        });
+    });
+
     // Add to Cart Event Delegation
     $(document).on('click', '.add-to-cart', function (e) {
         e.preventDefault();
